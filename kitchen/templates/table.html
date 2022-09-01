@@ -1,0 +1,181 @@
+{% extends 'base.html' %} {% load humanize %} {% block pageContent %}
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <div class="card card-default rounded-0 shadow">
+    <div class="card-header" style="background-color: #002B5B; color: #ffff">
+      <div class="d-flex w-100 align-items-center justify-content-between">
+        <h4 class="card-title fw-bold">{{ table_title }}</h4>
+        <div class="tools d-flex align-items-right justify-content-between">
+          {% if type == 'product' %}
+          <form action="" method="post" class="d-flex w-100">
+            {% block content0 %} {% csrf_token %}
+              <table>
+                {{ form.as_table }}
+              </table>
+            {% endblock %}
+            <button
+              type="submit"
+              class="btn btn-primary"
+              onclick=window.print
+            >
+              Search
+            </button>
+          </form>
+          {% endif %}
+          <button
+            type="button"
+            class="btn btn-primary rounded-0 bg-gradient btn-sm"
+            id="new_menu"
+            {% if type == 'menu' %}
+            onclick="location.href='{% url 'add_menu' %}'"
+            {% endif %}
+            {% if type == 'product' %}
+            onclick="location.href='{% url 'add_product' %}'"
+            {% endif %}
+            {% if type == 'distribution_unit' %}
+            onclick="location.href='{% url 'add_distribution_unit' %}'"
+            {% endif %}
+          >
+            <i class="fa fa-plus"></i> Add New
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="card-body">
+      <div class="container-fluid">
+       {% block content %} {% if type == 'menu' %}
+          <table class="table table-bordered">
+           <thead>
+            <tr class="bg-gradient bg-primary bg-opacity-50 text-light">
+              <th class="px-2 py-2 text-center">Code</th>
+              <th class="px-2 py-2 text-center">Week</th>
+              <th class="px-2 py-2 text-center">Day</th>
+              <th class="px-2 py-2 text-center">Meal</th>
+            </tr>
+          </thead>
+            <tbody>
+             {% if items %} {% for item in items %}
+              <tr>
+                <td class="px-2 py-1 align-middle text-center">{{item.name}}</td>
+                <td class="px-2 py-1 align-middle text-center">{{item.week}}</td>
+                <td class="px-2 py-1 align-middle text-center">{{item.day}}</td>
+                <td class="px-2 py-1 align-middle text-center">{% if item.meal == 3 %} Special {% else %} Meal {{ item.meal }}  {% endif %}</td>
+                <td class="px-2 py-1 align-middle text-center">
+                                <button class="btn btn-outline-primary btn-sm edit-data edit_menu" 
+                                type="button" data-id="{{ item.pk }}" title="Edit"
+                                >
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm delete-data delete_menu" 
+                                type="button" data-id="{{ item.pk }}" title="Delete">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+              </tr>
+              {% endfor %} {% endif %}
+          {% endif %} {% endblock %}
+
+          {% block content1 %} {% if type == 'product' %}
+          <table class="table table-bordered">
+           <thead>
+            <tr class="bg-gradient bg-primary bg-opacity-50 text-light">
+              <th class="px-2 py-2 text-center">Name</th>
+              <th class="px-2 py-2 text-center">Small Portion</th>
+              <th class="px-2 py-2 text-center">Large Portion</th>
+              <th class="px-2 py-2 text-center">Container Size</th>
+              <th class="px-2 py-2 text-center">Unit</th>
+              <th class="px-2 py-2 text-center">Menu</th>
+            </tr>
+          </thead>
+            <tbody>
+             {% if items %} {% for item in items %}
+              <tr>
+                <td class="px-2 py-1 align-middle text-center">{{item.name}}</td>
+                <td class="px-2 py-1 align-middle text-center">{{item.small_portion_amount}}</td>
+                <td class="px-2 py-1 align-middle text-center">{{item.large_portion_amount}}</td>
+                <td class="px-2 py-1 align-middle text-center">{{item.amount_per_container}}</td>
+                <td class="px-2 py-1 align-middle text-center">{% if item.unit == 'g' %} Grams {% else %} Pieces {% endif %}</td>
+                <td class="px-2 py-1 align-middle text-center">{{item.menu}}</td>
+                <td class="px-2 py-1 align-middle text-center">
+                                <button class="btn btn-outline-primary btn-sm edit-data edit_product" 
+                                type="button" data-id="{{ item.pk }}" title="Edit"
+                                >
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm delete-data delete_product" type="button" data-id="{{ item.pk }}" title="Delete">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+              </tr>
+              {% endfor %} {% endif %}
+          {% endif %} {% endblock %}
+
+          {% block content2 %} {% if type == 'distribution_unit' %}
+          <table class="table table-bordered">
+           <thead>
+            <tr class="bg-gradient bg-primary bg-opacity-50 text-light">
+              <th class="px-2 py-2 text-center">Name</th>
+              <th class="px-2 py-2 text-center">Type</th>
+              <th class="px-2 py-2 text-center">Meal 1</th>
+              <th class="px-2 py-2 text-center">Meal 2</th>
+              <th class="px-2 py-2 text-center">Lunch</th>
+            </tr>
+          </thead>
+            <tbody>
+             {% if items %} {% for item in items %}
+              <tr>
+                <td class="px-2 py-1 align-middle text-center">{{item.name}}</td>
+                <td class="px-2 py-1 align-middle text-center">{% if item.unit_type == 'k' %} Kindergarten {% else %} School {% endif %}</td>
+                <td class="px-2 py-1 align-middle text-center">{{item.meal_1}}</td>
+                <td class="px-2 py-1 align-middle text-center">{{item.meal_2}}</td>
+                <td class="px-2 py-1 align-middle text-center">{{item.lunch}}</td>
+                <td class="px-2 py-1 align-middle text-center">
+                                <button class="btn btn-outline-primary btn-sm edit-data edit_distribution_unit" 
+                                type="button" data-id="{{ item.pk }}" title="Edit"
+                                >
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm delete-data delete_distribution_unit" type="button" data-id="{{ item.pk }}" title="Delete">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+              </tr>
+              {% endfor %} {% endif %}
+          {% endif %} {% endblock %}
+          </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock pageContent %}
+
+{% block ScriptBlock %}
+<script>
+    $(function () {
+    $('.edit_product').click(function () {
+      location.href='{% url "edit_product" %}/' + $(this).attr('data-id')
+    })})
+    $(function () {
+    $('.edit_menu').click(function () {
+      location.href='{% url "edit_menu" %}/' + $(this).attr('data-id')
+    })})
+    $(function () {
+    $('.edit_distribution_unit').click(function () {
+      location.href='{% url "edit_distribution_unit" %}/' + $(this).attr('data-id')
+    })})
+    $(function () {
+    $('.delete_product').click(function () {
+      location.href='{% url "delete_product" %}/' + $(this).attr('data-id')
+    })})
+    $(function () {
+    $('.delete_menu').click(function () {
+      location.href='{% url "delete_menu" %}/' + $(this).attr('data-id')
+    })})
+    $(function () {
+    $('.delete_distribution_unit').click(function () {
+      location.href='{% url "delete_distribution_unit" %}/' + $(this).attr('data-id')
+    })})
+</script>
+{% endblock ScriptBlock %}

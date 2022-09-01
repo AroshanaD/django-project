@@ -1,0 +1,47 @@
+{% extends 'base.html' %}{% load static %}{% block pageContent %}
+<style>
+  main {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+  }
+</style>
+<div class="d-flex flex-column w-100 justify-content-center align-items-center">
+  <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+    <div class="card card-default shadow">
+      <div class="card-header" style="background-color: #002b5b">
+        <h4 class="card-title">
+          <b style="color: #ffff">{{ form_title }}</b>
+        </h4>
+      </div>
+      <div class="card-body">
+        <div class="container-fluid">
+          <div style="display: flex; justify-content: center; min-width: 100%">
+            <form action="" method="post">
+              {% block content %} {% csrf_token %}
+              <table>
+                {{ form.as_table }}
+              </table>
+              {% endblock %}
+              <br />
+              <div style="width: inherit; text-align: center">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  style="width: 100%"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock pageContent %}

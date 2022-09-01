@@ -1,0 +1,116 @@
+{% load static %}
+<header>
+  <!-- Intro settings -->
+  <style>
+    #intro {
+      /* Margin to fix overlapping fixed navbar */
+      margin-top: 58px;
+    }
+
+    @media (max-width: 991px) {
+      #intro {
+        /* Margin to fix overlapping fixed navbar */
+        margin-top: 45px;
+      }
+    }
+  </style>
+
+  <!-- Navbar -->
+  <nav
+    class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow border-bottom"
+  >
+    <div class="container">
+      <!-- Navbar brand -->
+      <a
+        class="navbar-brand"
+        target="_blank"
+        href="{% url 'home' %}"
+        style="background-color: #256d85"
+      >
+        <img
+          src="{{ MEDIA_ROOT }}/default/logo.png"
+          height="16"
+          alt="{{ MEDIA_ROOT }}"
+          loading="lazy"
+          style="margin-top: -3px"
+        />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-mdb-toggle="collapse"
+        data-mdb-target="#navbarExample01"
+        aria-controls="navbarExample01"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarExample01">
+        <ul class="navbar-nav mb-3 mb-lg-0" id="topNav">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'home' %}"
+              >Home</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              aria-current="page"
+              href="{% url 'view_product' %}"
+              >Products</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'view_menu' %}"
+              >Menus</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              aria-current="page"
+              href="{% url 'view_distribution_unit' %}"
+              >Distribution Units</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              aria-current="page"
+              href="{% url 'edit_orders' %}"
+              >Orders</a
+            >
+          </li>
+          {% comment %}
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'home' %}"
+              >Print</a
+            >
+          </li>
+          {% endcomment %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Navbar -->
+
+  <!-- Jumbotron -->
+  <div id="intro" class="pt-2 text-center bg-light">
+    <!-- <h1 class="mb-3 h2">Learn Bootstrap 5 with MDB</h1>
+        <p class="mb-3">Best & free guide of responsive web design</p>
+        <a class="btn btn-primary m-2" href="https://www.youtube.com/watch?v=c9B4TPnak1A" role="button" rel="nofollow" target="_blank">Start tutorial</a>
+        <a class="btn btn-primary m-2" href="https://mdbootstrap.com/docs/standard/" target="_blank" role="button">Download MDB UI KIT</a> -->
+  </div>
+  <!-- Jumbotron -->
+</header>
+<script>
+  $(function () {
+    $('#topNav .nav-link').each(function () {
+      var current = '{{ request.get_full_path | urlencode }}'
+      if (current == $(this).attr('href')) {
+        $(this).parent().addClass('active')
+      }
+    })
+  })
+</script>
